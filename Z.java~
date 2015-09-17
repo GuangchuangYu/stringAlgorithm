@@ -1,0 +1,43 @@
+/*
+
+Z algorithm
+
+see annimation: http://www.utdallas.edu/~besp/demo/John2010/z-algorithm.htm
+
+*/
+
+public class Z {
+    private int[] Z;
+
+    public void calculateZ(String S) {
+	int n = S.length();
+	Z = new int[n];
+
+	int L, R, k;
+	L = R = 0;
+	for (int i=1; i<n; i++) {
+	    if (i > R) {
+		L = R = i;
+		while(R<n && S.charAt(R-L) == S.charAt(R))
+		    R++;
+		Z[i] = R-L;
+		R--;
+	    } else {
+		k = i - L;
+		if (Z[k] < R-i+1) {
+		    Z[i] = Z[k];
+		} else {
+		    L = k;
+		    while(R<n && S.charAt(R-L) == S.charAt(R))
+			R++;
+		    Z[i] = R-L;
+		}
+	    }
+	}
+	
+    }
+
+    
+}
+
+
