@@ -21,28 +21,30 @@ public class Z {
 	int L, R, k;
 	L = R = 0;
 	for (int i=1; i<n; i++) {
-	    if (i > R) {
+	    if (i >= R) {
 		L = R = i;
 		while(R<n && P.charAt(R-L) == P.charAt(R))
 		    R++;
 		Z[i] = R-L;
-		R--;
 	    } else {
 		k = i - L;
 		if (Z[k] < R-i+1) {
 		    Z[i] = Z[k];
 		} else {
-		    L = k;
+		    L = i;
 		    while(R<n && P.charAt(R-L) == P.charAt(R))
 			R++;
 		    Z[i] = R-L;
-		    R--;
 		}
 	    }
 	}
 	
     }
 
+    public int[] getZ() {
+	return Z;
+    }
+    
     public void search(String T, String P) {
 	this.P = P;
 	this.T = T;
@@ -55,29 +57,20 @@ public class Z {
 		match_pos.add(i-n-1);
 	}
     }
-
-    public void printMatchPosition() {
-	if (match_pos.size() == 0) {
-	    System.out.println("No match found...");
-	}
-	
-	for (Integer match : match_pos) {
-	    System.out.println("match position: " + match);
-	    System.out.println(T);
-	    for (int i=0; i<match; i++) {
-		System.out.print(" ");
-	    }
-	    for (int i=match; i<match+P.length(); i++) {
-		System.out.print("|");
-	    }
-	    System.out.println();
-	    for (int i=0; i<match; i++) {
-		System.out.print(" ");
-	    }
-	    System.out.println(P);
-	    System.out.println();
+    
+    public void printPos() {
+	for (int i=0; i<match_pos.size(); i++) {
+	    System.out.println(match_pos.get(i));
 	}
     }
+
+    
+
+    public void printMatchPosition() {
+	MatchPosition mp = new MatchPosition(T, P, match_pos);
+	mp.print();
+    }
+
 }
 
 
