@@ -1,8 +1,10 @@
+import java.util.*;
+
 public class KMP {
     private String ref;
     private String seq;
     private int[] kmpTable;
-    private int match_pos;
+    private ArrayList<Integer> match_pos;
     
     public KMP(String seq) {
 	this.seq = seq;
@@ -27,7 +29,7 @@ public class KMP {
 
     public void search(String ref) {
 	this.ref = ref;
-	
+	match_pos = new ArrayList<Integer>();
 	int i=0, j=0;
 	
 	while (i < ref.length()) {
@@ -43,12 +45,10 @@ public class KMP {
 	    j++;
 
 	    if (j == seq.length()) {
-		match_pos = i-seq.length();
-		return;
+		match_pos.add(i-seq.length());
+		j = 0;
 	    }
 	}
-
-	match_pos = -1;
     }
     
     public void printTable() {
@@ -57,27 +57,9 @@ public class KMP {
 	System.out.println();
     }
 
-    public int getMatchPosition() {
-	return match_pos;
-    }
     
     public void printMatchPosition() {
-	if (match_pos < 0) {
-	    System.out.println("No match found...");
-	    return;
-	}
-	
-	System.out.println(ref);
-	for (int i=0; i<match_pos; i++) {
-	    System.out.print(" ");
-	}
-	for (int i=match_pos; i<match_pos+seq.length(); i++) {
-	    System.out.print("|");
-	}
-	System.out.println();
-	for (int i=0; i<match_pos; i++) {
-	    System.out.print(" ");
-	}
-	System.out.println(seq);
+	MatchPosition mp = new MatchPosition(ref, seq, match_pos);
+	mp.print();
     }
 }
